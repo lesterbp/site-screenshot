@@ -6,8 +6,7 @@
   "scripts": {
     "start": "./node_modules/node-dev/bin/node-dev src/app.js",
     "linter": "./node_modules/eslint/bin/eslint src",
-    "test": "mocha --recursive test/unit",
-    "integrationTest": "mocha --recursive test/integration"
+    "test": "mocha --recursive test/unit"
   },
   "repository": {
     "type": "git",
