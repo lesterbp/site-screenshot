@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  node:
+  node-chromium-db:
     # image:tag
     image: armno/node-chromium:10.15.0-alpine
     env_file: .env
@@ -10,9 +10,16 @@ services:
     ports:
       # exposed port:container port
       - 3001:3001
-      - 3002:3002
+    command: sh -c "make deps && npm start"
     depends_on:
       - postgres
+
+  node-chromium:
+    image: armno/node-chromium:10.15.0-alpine
+    env_file: .env
+    volumes:
+      - .:/opt/app
+    working_dir: /opt/app
 
   postgres:
     image: postgres:12-alpine
