@@ -13,7 +13,7 @@ test:
 	docker-compose run --rm node-chromium sh -c "make _lint && make _unitTest"
 
 shell:
-	docker-compose run --rm node-chromium sh
+	docker-compose run --rm node-chromium-db sh
 
 _lint:
 	npm run linter"
