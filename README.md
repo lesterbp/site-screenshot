@@ -7,6 +7,10 @@ The project uses Node.js, Chromium and Postgresql.
 - Makefile: This project utilizes makefile to shorten the commands you need, it might be optional but highly recommended to be installed
 - Docker: The whole project runs using docker containers
 
+# before running the app
+the application gets the needed environment variables from `.env` file
+you may copy the `.env.example` and rename it as `.env` then fill up the variables
+
 # running the app
 running the app also installs node dependencies and starts the database (and creates the tables)
 
@@ -38,3 +42,9 @@ if you have Makefile installed
 - `make shell`
 otherwise
 - `docker-compose run --rm node-chromium-db sh`
+
+# using the API
+<TODO>
+
+# other notes
+<TODO>
