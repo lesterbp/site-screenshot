@@ -10,7 +10,7 @@ services:
     ports:
       # exposed port:container port
       - 3001:3001
-    command: sh -c "make deps && npm start"
+    command: sh -c "make _deps && npm start"
     depends_on:
       - postgres
 
@@ -23,6 +23,8 @@ services:
 
   postgres:
     image: postgres:12-alpine
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
