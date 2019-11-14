@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  node:
+    # image:tag
+    image: armno/node-chromium:10.15.0-alpine
+    env_file: .env
+    volumes:
+      - .:/opt/app
+    working_dir: /opt/app
+    ports:
+      # exposed port:container port
+      - 3001:3001
+      - 3002:3002
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}

@@ -1,0 +1,37 @@
+{
+  "name": "site-screenshot",
+  "version": "1.0.0",
+  "description": "API getting scrennshots of web pages",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/node-dev/bin/node-dev src/app.js",
+    "linter": "./node_modules/eslint/bin/eslint src",
+    "test": "mocha --recursive test/unit",
+    "integrationTest": "mocha --recursive test/integration"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lesterbp/site-screenshot.git"
+  },
+  "author": "Lester Prudente",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lesterbp/site-screenshot/issues"
+  },
+  "homepage": "https://github.com/lesterbp/site-screenshot#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bunyan": "^1.8.12",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "mocha": "^6.2.0",
+    "node-dev": "^4.0.0"
+  }
+}
