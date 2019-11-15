@@ -8,10 +8,9 @@ getLogger({ level: 'error' }) // only log errors
 describe('capture', () => {
   describe('takeScreenshot', () => {
     const urlInput = 'http://www.google.com'
-    it('returns array of bytes', async () => {
-      const result = await takeScreenshot(urlInput)
-      console.log(result)
-      expect(result).to.be.not.equal(null)
+    it('works', async () => {
+      await takeScreenshot(urlInput, '', 'it_works')
+      // expect() // TODO: mock of puppeteer should be called and browser is closed
     })
   })
 })
