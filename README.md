@@ -16,32 +16,28 @@ running the app also installs node dependencies and starts the database (and cre
 
 if you have Makefile installed
 - `make start`
-otherwise
-- `docker-compose up`
+- otherwise: `docker-compose up`
 
 # stopping the app
 once started terminating the process via ^c (ctrl + c) should be enough but if for some reason that the containers are still running you may try these commands
 
 if you have Makefile installed
 - `make stop`
-otherwise
-- `docker-compose down`
+- otherwise: `docker-compose down`
 
 # running the tests
 the tests includes linting your codes and running unit test
 
 if you have Makefile installed
 - `make test`
-otherwise
-- `docker-compose run --rm node-chromium sh -c "make _lint && make _unitTest"`
+- otherwise: `docker-compose run --rm node-chromium sh -c "make _lint && make _unitTest"`
 
 # running shell inside a container
 maybe you need something to debug and wanted to be in a shell inside the container
 
 if you have Makefile installed
 - `make shell`
-otherwise
-- `docker-compose run --rm node-chromium-db sh`
+- otherwise: `docker-compose run --rm node-chromium-db sh`
 
 # using the API
 <TODO>
