@@ -35,7 +35,7 @@ describe('capture', () => {
     const urlInput = 'http://www.example.com'
 
     it('opens page and takes screenshot', async () => {
-      await takeScreenshot(urlInput, 'test_folder', 'test_file')
+      const result = await takeScreenshot(urlInput, 'test_folder', 'test_file')
 
       expect(launchStub.calledOnce).to.be.equal(true)
       expect(gotoStub.calledOnce).to.be.equal(true)
@@ -45,6 +45,7 @@ describe('capture', () => {
       const screenshotArg = screenshotStub.getCall(0).args[0]
       expect(screenshotArg).to.have.property('path')
       expect(screenshotArg.path).to.have.string('/test_folder/test_file.png')
+      expect(result).to.have.equal('/test_folder/test_file.png')
     })
   })
 })

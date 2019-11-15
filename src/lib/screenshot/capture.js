@@ -17,11 +17,14 @@ exports.takeScreenshot = async (url, folder, filename = 'capture', ) => {
   await page.goto(url, { waitUntil: 'networkidle0', timeout: 15000 })
 
   const folderPath = folder ? `/${folder}` : ''
-  const path = `${process.env.SCREENSHOTS_PATH}${folderPath}/${filename}.png`
+  const relativePath = `${folderPath}/${filename}.png`
+  const path = `${process.env.SCREENSHOTS_PATH}${relativePath}`
 
   log.debug('takeScreenshot: capturing screenshot', { path })
   await page.screenshot({path, fullPage: true})
   log.info('takeScreenshot: screenshot taken', { url, path })
 
   await browser.close()
+
+  return relativePath
 }
