@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/node-dev/bin/node-dev src/app.js",
-    "linter": "./node_modules/eslint/bin/eslint src",
+    "linter": "./node_modules/eslint/bin/eslint.js src",
     "test": "mocha --recursive test/unit"
   },
   "repository": {

@@ -62,3 +62,6 @@ typings/
 
 #posgresql db data
 db_data
+
+#screenshot data
+capture_data

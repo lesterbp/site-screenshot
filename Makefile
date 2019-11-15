@@ -11,15 +11,16 @@ stop:
 
 test:
 	docker-compose run --rm node-chromium sh -c "make _lint && make _unitTest"
+.PHONY: test
 
 shell:
 	docker-compose run --rm node-chromium-db sh
 
 _lint:
-	npm run linter"
+	npm run linter
 
 _unitTest:
-	docker-compose run --rm node-chromium sh -c "npm test"
+	npm test
 
 _migrateUp:
 	${MIGRATE} up
