@@ -1,37 +1,84 @@
-var fs = require('fs')
+const fs = require('fs')
 const uuid = require('uuid')
-const { takeScreenshot } = require('../screenshot/capture')
+const { getLogger } = require('../logging/logger')
+const {
+  saveToBatch,
+  retrieveBatch,
+} = require('../database/siteScreenshot')
 
-const processScreenshotFiling = async (url, folder, key) => {
-  const path = await takeScreenshot(url, folder, key)
-  return { url, key, path }
-}
+const STATUS_PENDING = 'PENDING'
 
-exports.processScreenshot = async (urls = []) => {
-  // TODO url validation
-  // TODO URL array length limit
-  // TODO saving of paths to DB
-  // TODO logging
+exports.addToQueue = async (urls = []) => {
+  const log = getLogger()
 
   if (!Array.isArray(urls)) {
-    throw new Error('processScreenshot: input given [urls] is not an array')
+    return { error: 'given input is not array' }
   }
 
   if (urls.length <= 0) {
-    return {}
+    return { error: 'no input given' }
   }
 
-  const sessionId = uuid.v4()
-  fs.mkdirSync(`${process.env.SCREENSHOTS_PATH}/${sessionId}`, { recursive: true })
+  const files = urls.map((url) => ({
+    url,
+    fileKey: null,
+    path: null,
+    error: null,
+  }))
 
-  const capturePromises = urls.map((url) => {
-    const fileId = uuid.v4()
-    return processScreenshotFiling(url, sessionId, fileId)
-  })
+  const batchId = uuid.v4()
+  const batchData = {
+    batchId,
+    metadata: { files, error: null },
+    status: STATUS_PENDING,
+  }
 
-  const captureMetaList = await Promise.all(capturePromises)
+  log.info('addToQueue: saving to batch table', batchData)
+  await saveToBatch(batchData)
+
+  return { batchId }
+}
+
+exports.getBatchData = async (id) => {
+  const batchRows = await retrieveBatch(id)
+
+  if (!batchRows.length) {
+    return { error: 'batch not found' }
+  }
+
+  const batch = batchRows[0] || {}
+
   return {
-    sessionId,
-    result: captureMetaList
+    status: batch.status,
+    batchData: {
+      batchId: id,
+      ...batch.screenshot_metadata,
+      files: batch.screenshot_metadata.files.map((file) => ({
+        error: file.error,
+        key: file.fileKey,
+        url: file.url,
+      })),
+    },
+  }
+}
+
+exports.getScreenshotFile = async (batchId, fileKey) => {
+  const batchRows = await retrieveBatch(batchId)
+
+  if (!batchRows.length) {
+    throw new Error('batch not found')
+  }
+
+  const batch = batchRows[0] || {}
+  const fileDetails = batch.screenshot_metadata.files.find((file) => file.fileKey === fileKey)
+
+  if (!fileDetails) {
+    throw new Error('file key not found')
+  }
+
+  try {
+    return fs.readFileSync(`${process.env.SCREENSHOTS_PATH}${fileDetails.path}`)
+  } catch (error) {
+    throw new Error('file reading error')
   }
 }

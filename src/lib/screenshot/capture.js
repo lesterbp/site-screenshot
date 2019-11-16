@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer-core')
 const { getLogger } = require('../logging/logger')
 
-exports.takeScreenshot = async (url, folder, filename = 'capture', ) => {
+exports.takeScreenshot = async (url, folder, filename = 'capture') => {
   const log = getLogger()
 
   const executablePath = process.env.CHROMIUM_PATH
@@ -21,7 +21,7 @@ exports.takeScreenshot = async (url, folder, filename = 'capture', ) => {
   const path = `${process.env.SCREENSHOTS_PATH}${relativePath}`
 
   log.debug('takeScreenshot: capturing screenshot', { path })
-  await page.screenshot({path, fullPage: true})
+  await page.screenshot({ path, fullPage: true })
   log.info('takeScreenshot: screenshot taken', { url, path })
 
   await browser.close()

@@ -8,4 +8,6 @@ exports.setupRoute = (app) => {
 
   app.get(`${BASE_PATH}/capture-screenshot/:url`, restHandler.captureScreenshot)
   app.post(`${BASE_PATH}/capture-screenshot`, restHandler.captureScreenshot)
+  app.get(`${BASE_PATH}/batch/:id`, restHandler.getBatch)
+  app.get(`${BASE_PATH}/file/:batchId/:fileKey`, restHandler.getFile)
 }

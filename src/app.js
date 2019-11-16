@@ -3,6 +3,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const { setupRoute } = require('./routes')
 const { getLogger } = require('./lib/logging/logger')
+require('./batch')
 
 const startRestApp = () => {
   const log = getLogger()
