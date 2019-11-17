@@ -1,5 +1,5 @@
 const { getLogger } = require('../logging/logger')
-const { addToQueue, getBatchData, getScreenshotFile } = require('./screenshotHandler')
+const screenshotHandler = require('./screenshotHandler')
 
 exports.captureScreenshot = async (req, res) => {
   const log = getLogger()
@@ -11,7 +11,7 @@ exports.captureScreenshot = async (req, res) => {
 
   try {
     const processInput = typeof url === 'string' ? [url] : url
-    const processResult = await addToQueue(processInput)
+    const processResult = await screenshotHandler.addToQueue(processInput)
     result.data = processResult
 
     if (processResult.error) {
@@ -33,7 +33,7 @@ exports.getBatch = async (req, res) => {
   let statusCode = 200
 
   try {
-    result.data = await getBatchData(id)
+    result.data = await screenshotHandler.getBatchData(id)
     if (result.data.error) {
       statusCode = 404
     }
@@ -53,7 +53,7 @@ exports.getFile = async (req, res) => {
   let fileData
 
   try {
-    fileData = await getScreenshotFile(batchId, fileKey)
+    fileData = await screenshotHandler.getScreenshotFile(batchId, fileKey)
   } catch (e) {
     log.error('rest:getFile: encountered error', { errorMessage: e.message })
     statusCode = 404

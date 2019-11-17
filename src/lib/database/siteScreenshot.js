@@ -1,4 +1,4 @@
-const { connectedClient } = require('./client')
+const dbClient = require('./client')
 const { getLogger } = require('../logging/logger')
 
 const SAVE_BATCH_SQL = 'INSERT INTO screenshot_batches(id, screenshot_metadata, status) VALUES($1, $2, $3)'
@@ -14,7 +14,7 @@ exports.saveToBatch = async ({ batchId, metadata, status }) => {
   const log = getLogger()
 
   try {
-    const client = await connectedClient()
+    const client = await dbClient.connectedClient()
     await client.query({
       text: SAVE_BATCH_SQL,
       values: [batchId, metadata, status],
@@ -29,7 +29,7 @@ exports.retrieveBatch = async (id) => {
   const log = getLogger()
 
   try {
-    const client = await connectedClient()
+    const client = await dbClient.connectedClient()
     const { rows } = await client.query({
       text: RETRIEVE_BATCH_SQL,
       values: [id],
@@ -45,7 +45,7 @@ exports.updateAndReturnSingleBatchStatus = async (status) => {
   const log = getLogger()
 
   try {
-    const client = await connectedClient()
+    const client = await dbClient.connectedClient()
     const { rows } = await client.query({
       text: UPDATE_SINGLE_PENDING_BATCH_STATUS_SQL,
       values: [status],
@@ -61,7 +61,7 @@ exports.updateBatchById = async ({ batchId, status, metadata }) => {
   const log = getLogger()
 
   try {
-    const client = await connectedClient()
+    const client = await dbClient.connectedClient()
     const { rows } = await client.query({
       text: UPDATE_BATCH_BY_ID_SQL,
       values: [batchId, status, metadata],

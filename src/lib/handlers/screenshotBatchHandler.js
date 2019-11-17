@@ -1,13 +1,10 @@
 const get = require('lodash.get')
+const uuid = require('uuid')
 const fs = require('fs')
 const { promisify } = require('util')
-const uuid = require('uuid')
 const { getLogger } = require('../logging/logger')
-const { takeScreenshot } = require('../screenshot/capture')
-const {
-  updateAndReturnSingleBatchStatus,
-  updateBatchById,
-} = require('../database/siteScreenshot')
+const capture = require('../screenshot/capture')
+const siteScreenshot = require('../database/siteScreenshot')
 
 const sleep = promisify(setTimeout)
 
@@ -22,7 +19,7 @@ const processScreenshot = async (url, folder) => {
   }
 
   try {
-    result.path = await takeScreenshot(url, folder, fileKey)
+    result.path = await capture.takeScreenshot(url, folder, fileKey)
   } catch (error) {
     result.error = error.message
   }
@@ -57,7 +54,7 @@ const processBatch = async (batch) => {
     metadata.error = error.message
   }
 
-  await updateBatchById({ batchId, status, metadata })
+  await siteScreenshot.updateBatchById({ batchId, status, metadata })
 }
 
 exports.processBatches = async () => {
@@ -65,7 +62,7 @@ exports.processBatches = async () => {
 
   while (process.env.ENABLE_BATCH_PROCESS === 'true') {
     // eslint-disable-next-line
-    const batchRows = await updateAndReturnSingleBatchStatus(STATUS_PROCESSING)
+    const batchRows = await siteScreenshot.updateAndReturnSingleBatchStatus(STATUS_PROCESSING)
 
     if (!batchRows.length) {
       // eslint-disable-next-line

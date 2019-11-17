@@ -1,10 +1,7 @@
 const fs = require('fs')
 const uuid = require('uuid')
 const { getLogger } = require('../logging/logger')
-const {
-  saveToBatch,
-  retrieveBatch,
-} = require('../database/siteScreenshot')
+const siteScreenshot = require('../database/siteScreenshot')
 
 const STATUS_PENDING = 'PENDING'
 
@@ -34,13 +31,13 @@ exports.addToQueue = async (urls = []) => {
   }
 
   log.info('addToQueue: saving to batch table', batchData)
-  await saveToBatch(batchData)
+  await siteScreenshot.saveToBatch(batchData)
 
   return { batchId }
 }
 
 exports.getBatchData = async (id) => {
-  const batchRows = await retrieveBatch(id)
+  const batchRows = await siteScreenshot.retrieveBatch(id)
 
   if (!batchRows.length) {
     return { error: 'batch not found' }
@@ -63,7 +60,7 @@ exports.getBatchData = async (id) => {
 }
 
 exports.getScreenshotFile = async (batchId, fileKey) => {
-  const batchRows = await retrieveBatch(batchId)
+  const batchRows = await siteScreenshot.retrieveBatch(batchId)
 
   if (!batchRows.length) {
     throw new Error('batch not found')
