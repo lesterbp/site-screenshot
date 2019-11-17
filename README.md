@@ -23,7 +23,7 @@ NOTE:
 - in case the application does not start correctly due to migration error, you might need to increase the sleep value in `Makefile`'s `_deps` target
 
 # stopping the app
-once started terminating the process via ^c (ctrl + c) should be enough but if for some reason that the containers are still running you may try these commands
+once started, terminating the process via ^c (ctrl + c) should be enough but if for some reason that the containers are still running you may try these commands
 
 if you have Makefile installed
 - `make stop`
@@ -88,6 +88,7 @@ GET: http://0.0.0.0:3001/site-screenshot/file/<batch_ID>/<file_key>
 ## productionization
 Current project setup is not meant to be deployed to production.
 Taking the project to production would at least need the following:
+- proper system variable (env) configuration
 - install dependencies with `NODE_ENV` value `production`
 - using actual Node instead of the `node-dev`
 - bundling the project (maybe using webpack)
