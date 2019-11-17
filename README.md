@@ -18,7 +18,9 @@ if you have Makefile installed
 - `make start`
 - otherwise: `docker-compose up`
 
-NOTE: in case the application does not start correctly due to migration error, you might need to increase the sleep value in `Makefile`'s `_deps` target
+NOTE:
+- starting the app may take a while as the start script have `sleep` in it to sync with DB start process
+- in case the application does not start correctly due to migration error, you might need to increase the sleep value in `Makefile`'s `_deps` target
 
 # stopping the app
 once started terminating the process via ^c (ctrl + c) should be enough but if for some reason that the containers are still running you may try these commands
