@@ -17,7 +17,9 @@ const STATUS_ERROR = 'ERROR'
 
 const processScreenshot = async (url, folder) => {
   const fileKey = uuid.v4()
-  const result = { path: null, fileKey, error: null, url }
+  const result = {
+    path: null, fileKey, error: null, url,
+  }
 
   try {
     result.path = await takeScreenshot(url, folder, fileKey)

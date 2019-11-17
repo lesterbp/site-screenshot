@@ -1,7 +1,7 @@
 const { getLogger } = require('./lib/logging/logger')
 const { processBatches } = require('./lib/handlers/screenshotBatchHandler')
 
-startBatchProcessing = () => {
+const startBatchProcessing = () => {
   const log = getLogger()
   log.info('startBatchProcessing:processBatches starting')
   processBatches().catch((error) => {
